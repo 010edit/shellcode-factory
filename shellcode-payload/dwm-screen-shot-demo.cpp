@@ -29,19 +29,6 @@ volatile unsigned long  hook_fun_done         = 0; //截图函数是否执行
 volatile DWORD          hook_fun_memory_proct = 0; //被hook函数内存属性
 volatile DWORD64         hook_fun_address      = 0; // hook函数地址
 
-//使用内嵌函数 这个东西只在本cpp起作用，不要写在.h里面 写在每个cpp的最开头部分
-extern "C" {
-#pragma function(memset)
-void *__cdecl memset(void *dest, int value, size_t num) {
-    __stosb(static_cast<unsigned char *>(dest), static_cast<unsigned char>(value), num);
-    return dest;
-}
-#pragma function(memcpy)
-void *__cdecl memcpy(void *dest, const void *src, size_t num) {
-    __movsb(static_cast<unsigned char *>(dest), static_cast<const unsigned char *>(src), num);
-    return dest;
-}
-}
 
 SC_EXPORT DWORD DwmCaptureScreen(LPVOID lpParameter) {
 
